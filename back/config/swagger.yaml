@@ -1,0 +1,533 @@
+openapi: 3.0.0
+info:
+  title: API Clínica - Sistema de Gestão
+  version: 1.0.0
+  description: API RESTful para gerenciamento de médicos, pacientes, convênios, consultas e prontuários.
+servers:
+  - url: http://localhost:3000
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Auth
+  - name: Medico
+  - name: Paciente
+  - name: Convenio
+  - name: Consulta
+  - name: PacienteConvenio
+  - name: Prontuario
+
+paths:
+
+  /auth/login:
+    post:
+      summary: Login para médicos e pacientes
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                senha:
+                  type: string
+      responses:
+        '200':
+          description: Login realizado com sucesso
+        '401':
+          description: Credenciais inválidas
+
+  /medicos:
+    get:
+      summary: Lista todos os médicos
+      tags: [Medico]
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Lista de médicos
+    post:
+      summary: Cria um novo médico
+      tags: [Medico]
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                senha:
+                  type: string
+                crm:
+                  type: string
+                especialidade:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: Médico criado com sucesso
+
+  /medicos/{id}:
+    get:
+      summary: Busca médico pelo ID
+      tags: [Medico]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Médico encontrado
+    put:
+      summary: Atualiza médico
+      tags: [Medico]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                senha:
+                  type: string
+                crm:
+                  type: string
+                especialidade:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Médico atualizado com sucesso
+    delete:
+      summary: Deleta médico
+      tags: [Medico]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Médico deletado com sucesso
+
+  /pacientes:
+    get:
+      summary: Lista todos os pacientes
+      tags: [Paciente]
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Lista de pacientes
+    post:
+      summary: Cria um novo paciente
+      tags: [Paciente]
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                senha:
+                  type: string
+                cpf:
+                  type: integer
+                telefone:
+                  type: integer
+      responses:
+        '201':
+          description: Paciente criado com sucesso
+
+  /pacientes/{id}:
+    get:
+      summary: Busca paciente pelo ID
+      tags: [Paciente]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Paciente encontrado
+    put:
+      summary: Atualiza paciente
+      tags: [Paciente]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                senha:
+                  type: string
+                cpf:
+                  type: integer
+                telefone:
+                  type: integer
+      responses:
+        '200':
+          description: Paciente atualizado com sucesso
+    delete:
+      summary: Deleta paciente
+      tags: [Paciente]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Paciente deletado com sucesso
+
+  /convenios:
+    get:
+      summary: Lista todos os convênios
+      tags: [Convenio]
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Lista de convênios
+    post:
+      summary: Cria um novo convênio
+      tags: [Convenio]
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                descricao:
+                  type: string
+      responses:
+        '201':
+          description: Convênio criado com sucesso
+
+  /convenios/{id}:
+    get:
+      summary: Busca convênio pelo ID
+      tags: [Convenio]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Convênio encontrado
+    put:
+      summary: Atualiza convênio
+      tags: [Convenio]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                descricao:
+                  type: string
+      responses:
+        '200':
+          description: Convênio atualizado com sucesso
+    delete:
+      summary: Deleta convênio
+      tags: [Convenio]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Convênio deletado com sucesso
+
+  /consultas:
+    get:
+      summary: Lista todas as consultas
+      tags: [Consulta]
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Lista de consultas
+    post:
+      summary: Cria uma nova consulta
+      tags: [Consulta]
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idPaciente:
+                  type: integer
+                idMedico:
+                  type: integer
+                local:
+                  type: string
+                status:
+                  type: string
+                data:
+                  type: string
+      responses:
+        '201':
+          description: Consulta criada com sucesso
+
+  /consultas/{id}:
+    get:
+      summary: Busca consulta por ID
+      tags: [Consulta]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Consulta encontrada
+    put:
+      summary: Atualiza consulta
+      tags: [Consulta]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idPaciente:
+                  type: integer
+                idMedico:
+                  type: integer
+                local:
+                  type: string
+                status:
+                  type: string
+                data:
+                  type: string
+      responses:
+        '200':
+          description: Consulta atualizada com sucesso
+    delete:
+      summary: Deleta consulta
+      tags: [Consulta]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Consulta deletada com sucesso
+
+  /pacienteConvenios:
+    post:
+      summary: Associa paciente a convênio
+      tags: [PacienteConvenio]
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idPaciente:
+                  type: integer
+                idConvenio:
+                  type: integer
+                numeroPlano:
+                  type: string
+      responses:
+        '201':
+          description: Associação criada com sucesso
+
+  /pacienteConvenios/{id}:
+    delete:
+      summary: Remove associação paciente-convênio pelo ID da associação
+      tags: [PacienteConvenio]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Associação removida com sucesso
+
+  /prontuarios/{idPaciente}:
+    get:
+      summary: Lista o prontuário de um paciente
+      tags: [Prontuario]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: idPaciente
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Prontuário encontrado
+    post:
+      summary: Adiciona entrada no prontuário
+      tags: [Prontuario]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: idPaciente
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_consulta:
+                  type: string
+                sintomas:
+                  type: string
+                diagnostico:
+                  type: string
+                prescricao:
+                  type: string
+                observacoes:
+                  type: string
+      responses:
+        '201':
+          description: Entrada adicionada com sucesso
+
+  /prontuarios/{idPaciente}/{idConsulta}:
+    put:
+      summary: Atualiza uma entrada no prontuário
+      tags: [Prontuario]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: idPaciente
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: idConsulta
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sintomas:
+                  type: string
+                diagnostico:
+                  type: string
+                prescricao:
+                  type: string
+                observacoes:
+                  type: string
+      responses:
+        '200':
+          description: Entrada atualizada com sucesso
+
+    delete:
+      summary: Remove uma entrada do prontuário
+      tags: [Prontuario]
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - in: path
+          name: idPaciente
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: idConsulta
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Entrada removida com sucesso

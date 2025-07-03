@@ -2,11 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./config/db');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('yamljs');
+const swaggerDocument = yaml.load('./config/swagger.yaml');
 
 require('./config/mongo');
 
 // Middleware
 app.use(bodyParser.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Importar Rotas
 const medicoRoutes = require('./routers/medicoRoutes');
