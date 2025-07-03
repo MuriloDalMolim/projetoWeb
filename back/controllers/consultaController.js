@@ -1,4 +1,5 @@
 const db = require('../config/db');
+
 const Consulta = db.models.Consulta;
 
 module.exports = {
@@ -23,8 +24,17 @@ module.exports = {
 
     async criar(req, res) {
         try {
-            const novaConsulta = await Consulta.create(req.body);
-            res.json(novaConsulta);
+            const { idPaciente, idMedico, local, status, data } = req.body;
+
+            const novaConsulta = await Consulta.create({
+                idPaciente,
+                idMedico,
+                local,
+                status,
+                data
+            });
+
+            res.status(201).json(novaConsulta);
         } catch (error) {
             res.status(500).json({ message: 'Erro ao criar consulta.', error });
         }
@@ -35,7 +45,9 @@ module.exports = {
             const consulta = await Consulta.findByPk(req.params.id);
             if (!consulta) return res.status(404).json({ message: 'Consulta não encontrada.' });
 
-            await consulta.update(req.body);
+            const { local, status, data } = req.body;
+
+            await consulta.update({ local, status, data });
             res.json({ message: 'Consulta atualizada com sucesso.' });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao atualizar consulta.', error });

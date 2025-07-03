@@ -1,28 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db');
+const consultaController = require('../controllers/consultaController');
 const auth = require('../middlewares/auth');
 
-const Consulta = db.models.Consulta;
+// Listar todas as consultas
+router.get('/', auth.verifyToken, consultaController.listar);
 
-router.get('/', auth.verifyToken, async (req, res) => {
-    const consultas = await Consulta.findAll();
-    res.json(consultas);
-});
+// Buscar consulta por ID
+router.get('/:id', auth.verifyToken, consultaController.buscarPorId);
 
-router.post('/', auth.verifyToken, auth.isMedico, async (req, res) => {
-    const consulta = await Consulta.create(req.body);
-    res.json(consulta);
-});
+// Criar consulta
+router.post('/', auth.verifyToken, auth.isMedico, consultaController.criar);
 
-router.put('/:id', auth.verifyToken, auth.isMedico, async (req, res) => {
-    await Consulta.update(req.body, { where: { id: req.params.id } });
-    res.json({ message: 'Consulta atualizada' });
-});
+// Atualizar consulta
+router.put('/:id', auth.verifyToken, auth.isMedico, consultaController.atualizar);
 
-router.delete('/:id', auth.verifyToken, auth.isMedico, async (req, res) => {
-    await Consulta.destroy({ where: { id: req.params.id } });
-    res.json({ message: 'Consulta deletada' });
-});
+// Deletar consulta
+router.delete('/:id', auth.verifyToken, auth.isMedico, consultaController.deletar);
 
 module.exports = router;
