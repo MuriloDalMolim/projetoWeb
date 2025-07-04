@@ -30,17 +30,22 @@ export default function ConvenioList() {
     <div>
       <h2>Convênios</h2>
       <button onClick={() => navigate('/convenios/novo')}>Novo Convênio</button>
-      <ul>
-        {convenios.map(c => (
-          <li key={c.id}>
-            {c.nome} - {c.descricao}
-            {' '}
-            <button onClick={() => navigate(`/convenios/${c.id}`)}>Editar</button>
-            {' '}
-            <button onClick={() => handleDelete(c.id)}>Excluir</button>
-          </li>
-        ))}
-      </ul>
+      {convenios.length === 0 ? (
+        <p>Nenhum convênio encontrado.</p>
+      ) : (
+        <ul>
+          {convenios.map(c => (
+            <li key={c.id}>
+              {c.nome} - {c.descricao}
+              {' '}
+              <button onClick={() => navigate(`/convenios/${c.id}`)}>Editar</button>
+              {' '}
+              <button onClick={() => handleDelete(c.id)}>Excluir</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <button onClick={() => navigate('/home')}>Voltar</button>
     </div>
   );
 }

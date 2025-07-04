@@ -30,17 +30,22 @@ export default function ConsultaList() {
     <div>
       <h2>Consultas</h2>
       <button onClick={() => navigate('/consultas/novo')}>Nova Consulta</button>
-      <ul>
-        {consultas.map(c => (
-          <li key={c.id}>
-            Paciente ID: {c.idPaciente} - Médico ID: {c.idMedico} - Local: {c.local} - Status: {c.status} - Data: {c.data}
-            {' '}
-            <button onClick={() => navigate(`/consultas/${c.id}`)}>Editar</button>
-            {' '}
-            <button onClick={() => handleDelete(c.id)}>Excluir</button>
-          </li>
-        ))}
-      </ul>
+      {consultas.length === 0 ? (
+        <p>Nenhuma consulta encontrada.</p>
+      ) : (
+        <ul>
+          {consultas.map(c => (
+            <li key={c.id}>
+              Paciente ID: {c.idPaciente} - Médico ID: {c.idMedico} - Local: {c.local} - Status: {c.status} - Data: {c.data}
+              {' '}
+              <button onClick={() => navigate(`/consultas/${c.id}`)}>Editar</button>
+              {' '}
+              <button onClick={() => handleDelete(c.id)}>Excluir</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <button onClick={() => navigate('/home')}>Voltar</button>
     </div>
   );
 }

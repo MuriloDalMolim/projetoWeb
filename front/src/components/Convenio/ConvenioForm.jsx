@@ -61,22 +61,31 @@ export default function ConvenioForm() {
       {loading && <p>Carregando convênio...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input
-          name="nome"
-          placeholder="Nome"
-          value={convenio.nome}
-          onChange={handleChange}
-          required={!id} // Apenas obrigatório no cadastro
-        />
-        <input
-          name="descricao"
-          placeholder="Descrição"
-          value={convenio.descricao}
-          onChange={handleChange}
-          required={!id} // Apenas obrigatório no cadastro
-        />
+        <div>
+          <label htmlFor="nome">Nome:</label>
+          <input
+            id="nome"
+            name="nome"
+            placeholder="Nome"
+            value={convenio.nome}
+            onChange={handleChange}
+            required={!id}
+          />
+        </div>
+        <div>
+          <label htmlFor="descricao">Descrição:</label>
+          <input
+            id="descricao"
+            name="descricao"
+            placeholder="Descrição"
+            value={convenio.descricao}
+            onChange={handleChange}
+            required={!id}
+          />
+        </div>
         <button type="submit">Salvar</button>
       </form>
+      <button onClick={() => navigate('/convenios')}>Voltar</button>
     </div>
   );
 }

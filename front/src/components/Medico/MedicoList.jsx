@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../api/api';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export default function MedicoList() {
+export default function MedicoList() { // Removidas as props onAdd e onEdit
   const [medicos, setMedicos] = useState([]);
+  const navigate = useNavigate();
 
   const fetchMedicos = async () => {
     try {
@@ -33,29 +34,48 @@ export default function MedicoList() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: 'auto', padding: 20 }}>
-      <h2>Lista de Médicos</h2>
-      <Link to="/medicos/novo">
-        <button style={{ marginBottom: 15 }}>Adicionar Médico</button>
-      </Link>
+    <div style={{ backgroundColor: 'white', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '0.5rem', padding: '1.5rem' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#1f2937' }}>Lista de Médicos</h2>
+      <button
+        onClick={() => navigate("/medicos/novo")} // Navegação direta para a rota de criação
+        style={{ backgroundColor: '#2563eb', color: 'white', padding: '0.75rem 1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: '500', marginBottom: '1.5rem' }}
+      >
+        Adicionar Médico
+      </button>
       {medicos.length === 0 ? (
-        <p>Nenhum médico encontrado.</p>
+        <p style={{ color: '#4b5563' }}>Nenhum médico encontrado.</p>
       ) : (
-        <ul>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {medicos.map(medico => (
-            <li key={medico.id} style={{ marginBottom: 10 }}>
-              <strong>Nome:</strong> {medico.nome} <br />
-              <strong>CRM:</strong> {medico.crm} <br />
-              <strong>Especialidade:</strong> {medico.especialidade} <br />
-              <strong>Email:</strong> {medico.email} <br />
-              <Link to={`/medicos/${medico.id}`}>
-                <button style={{ marginRight: 10 }}>Editar</button>
-              </Link>
-              <button onClick={() => handleDelete(medico.id)}>Excluir</button>
+            <li key={medico.id} style={{ borderBottom: '1px solid #e5e7eb', paddingBottom: '1rem', paddingTop: '1rem' }}>
+              <p style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1f2937', margin: 0 }}>Nome: {medico.nome}</p>
+              <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>CRM: {medico.crm}</p>
+              <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Especialidade: {medico.especialidade}</p>
+              <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Email: {medico.email}</p>
+              <div style={{ marginTop: '0.75rem' }}>
+                <button
+                  onClick={() => navigate(`/medicos/${medico.id}`)} // Navegação direta para a rota de edição
+                  style={{ backgroundColor: '#f59e0b', color: 'white', padding: '0.375rem 0.75rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem', marginRight: '0.5rem' }}
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(medico.id)}
+                  style={{ backgroundColor: '#dc2626', color: 'white', padding: '0.375rem 0.75rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem' }}
+                >
+                  Excluir
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       )}
+      <button
+        onClick={() => navigate('/home')} // Botão Voltar para a Home
+        style={{ backgroundColor: '#6b7280', color: 'white', padding: '0.75rem 1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: '500', marginTop: '1.5rem' }}
+      >
+        Voltar
+      </button>
     </div>
   );
 }

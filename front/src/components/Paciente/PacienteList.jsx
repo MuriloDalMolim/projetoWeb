@@ -30,17 +30,21 @@ export default function PacienteList() {
     <div>
       <h2>Pacientes</h2>
       <button onClick={() => navigate('/pacientes/novo')}>Novo Paciente</button>
-      <ul>
-        {pacientes.map(p => (
-          <li key={p.id}>
-            {p.nome} - CPF: {p.cpf} - Telefone: {p.telefone}
-            {' '}
-            <button onClick={() => navigate(`/pacientes/${p.id}`)}>Editar</button>
-            {' '}
-            <button onClick={() => handleDelete(p.id)}>Excluir</button>
-          </li>
-        ))}
-      </ul>
+      {pacientes.length === 0 ? (
+        <p>Nenhum paciente encontrado.</p>
+      ) : (
+        <ul>
+          {pacientes.map(p => (
+            <li key={p.id}>
+              {p.nome} - CPF: {p.cpf} - Telefone: {p.telefone}
+              {' '}
+              <button onClick={() => navigate(`/pacientes/${p.id}`)}>Editar</button>
+              {' '}
+              <button onClick={() => handleDelete(p.id)}>Excluir</button>
+            </li>
+          ))}
+        </ul>
+      )}
       <button onClick={() => navigate('/home')}>Voltar</button>
     </div>
   );

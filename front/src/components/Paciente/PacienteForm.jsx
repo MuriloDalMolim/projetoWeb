@@ -64,43 +64,76 @@ export default function PacienteForm() {
   };
 
   return (
-    <div>
-      <h2>{id ? 'Editar Paciente' : 'Novo Paciente'}</h2>
-      {loading && <p>Carregando paciente...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          name="nome"
-          placeholder="Nome"
-          value={paciente.nome}
-          onChange={handleChange}
-          required={!id}
-        />
-        <input
-          name="senha"
-          placeholder="Senha"
-          value={paciente.senha}
-          onChange={handleChange}
-          type="password"
-          required={!id}
-        />
-        <input
-          name="cpf"
-          placeholder="CPF"
-          value={paciente.cpf}
-          onChange={handleChange}
-          required={!id}
-        />
-        <input
-          name="telefone"
-          placeholder="Telefone"
-          value={paciente.telefone}
-          onChange={handleChange}
-          required={!id}
-        />
-        <button type="submit">Salvar</button>
+    <div style={{ maxWidth: '48rem', margin: 'auto', padding: '1rem', backgroundColor: 'white', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '0.5rem', marginTop: '2rem' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#1f2937' }}>{id ? 'Editar Paciente' : 'Novo Paciente'}</h2>
+      {loading && <p style={{ color: '#2563eb', marginBottom: '1rem' }}>Carregando paciente...</p>}
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div>
+          <label htmlFor="nome" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.25rem' }}>Nome:</label>
+          <input
+            id="nome"
+            name="nome"
+            placeholder="Nome completo"
+            value={paciente.nome}
+            onChange={handleChange}
+            required={!id}
+            style={{ display: 'block', width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db', borderRadius: '0.375rem', outline: 'none' }}
+          />
+        </div>
+        <div>
+          <label htmlFor="senha" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.25rem' }}>Senha:</label>
+          <input
+            id="senha"
+            name="senha"
+            placeholder="Senha (deixe em branco para não alterar)"
+            value={paciente.senha}
+            onChange={handleChange}
+            type="password"
+            required={!id}
+            style={{ display: 'block', width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db', borderRadius: '0.375rem', outline: 'none' }}
+          />
+        </div>
+        <div>
+          <label htmlFor="cpf" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.25rem' }}>CPF:</label>
+          <input
+            id="cpf"
+            name="cpf"
+            placeholder="CPF"
+            value={paciente.cpf}
+            onChange={handleChange}
+            required={!id}
+            style={{ display: 'block', width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db', borderRadius: '0.375rem', outline: 'none' }}
+          />
+        </div>
+        <div>
+          <label htmlFor="telefone" style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.25rem' }}>Telefone:</label>
+          <input
+            id="telefone"
+            name="telefone"
+            placeholder="Telefone"
+            value={paciente.telefone}
+            onChange={handleChange}
+            required={!id}
+            style={{ display: 'block', width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db', borderRadius: '0.375rem', outline: 'none' }}
+          />
+        </div>
+        <div>
+          <button
+            type="submit"
+            style={{ backgroundColor: '#2563eb', color: 'white', padding: '0.625rem 1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '500', marginRight: '0.5rem' }}
+          >
+            Salvar
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/pacientes')}
+            style={{ backgroundColor: '#6b7280', color: 'white', padding: '0.625rem 1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '500' }}
+          >
+            Voltar
+          </button>
+        </div>
       </form>
-      <button onClick={() => navigate('/pacientes')}>Voltar</button>
     </div>
   );
 }

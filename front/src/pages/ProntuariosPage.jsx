@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
-import ProntuarioList from './../components/Prontuario/ProntuarioList';
+import ProntuarioList from './../components/Prontuario/ProntuarioList'; // Certifique-se que o componente existe e está estilizado
 
 export default function ProntuariosPage() {
   const [idPaciente, setIdPaciente] = useState('');
   const [prontuario, setProntuario] = useState(null);
   const [error, setError] = useState('');
 
-  const token = localStorage.getItem('token'); // pega o token do localStorage, ajuste se sua forma for diferente
+  const token = localStorage.getItem('token');
 
   const buscarProntuario = async () => {
     setError('');
@@ -18,7 +18,7 @@ export default function ProntuariosPage() {
     try {
       const response = await axios.get(`http://localhost:3000/api/prontuarios/${idPaciente}`, {
         headers: {
-          authorization: token, // sem Bearer, só o token mesmo
+          authorization: token,
         },
       });
       setProntuario(response.data);
@@ -39,7 +39,6 @@ export default function ProntuariosPage() {
         }
       );
 
-      // Atualiza o estado local para refletir a alteração
       setProntuario((prev) => {
         if (!prev) return prev;
         const novoHistorico = prev.historico.map((item) =>
@@ -53,23 +52,36 @@ export default function ProntuariosPage() {
   };
 
   return (
-    <div>
-      <h2>Buscar Prontuário por ID do Paciente</h2>
-      <input
-        type="text"
-        placeholder="ID do paciente"
-        value={idPaciente}
-        onChange={(e) => setIdPaciente(e.target.value)}
-      />
-      <button onClick={buscarProntuario}>Buscar</button>
+    <div style={{ maxWidth: '48rem', margin: 'auto', padding: '1rem', backgroundColor: '#f3f4f6', minHeight: '100vh' }}>
+      <div style={{ backgroundColor: 'white', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '0.5rem', padding: '1.5rem', marginBottom: '1.5rem' }}>
+        <h2 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#1f2937', textAlign: 'center' }}>Buscar Prontuário por ID do Paciente</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder="ID do paciente"
+            value={idPaciente}
+            onChange={(e) => setIdPaciente(e.target.value)}
+            style={{ flexGrow: 1, padding: '0.75rem 1rem', border: '1px solid #d1d5db', borderRadius: '0.375rem', outline: 'none', width: '100%', maxWidth: '20rem' }}
+          />
+          <button
+            onClick={buscarProntuario}
+            style={{ backgroundColor: '#2563eb', color: 'white', padding: '0.75rem 1.5rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: '500' }}
+          >
+            Buscar
+          </button>
+        </div>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ textAlign: 'center', color: 'red', fontSize: '1.125rem', marginBottom: '1rem' }}>{error}</p>}
+      </div>
 
-      {prontuario && prontuario.historico && prontuario.historico.length > 0 ? (
-        <ProntuarioList prontuarios={prontuario.historico} onUpdate={atualizarEntrada} />
-      ) : (
-        prontuario && <p>Prontuário vazio.</p>
-      )}
+      {prontuario && prontuario.historico ? (
+        prontuario.historico.length > 0 ? (
+          // ProntuarioList é um componente externo e receberá estilos inline
+          <ProntuarioList prontuarios={prontuario.historico} onUpdate={atualizarEntrada} />
+        ) : (
+          <p style={{ textAlign: 'center', color: '#4b5563', fontSize: '1.125rem' }}>Prontuário vazio.</p>
+        )
+      ) : null}
     </div>
   );
 }
