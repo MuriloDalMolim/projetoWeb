@@ -10,14 +10,40 @@ router.get('/', auth.verifyToken, async (req, res) => {
     res.json(medicos);
 });
 
+router.get('/:id', auth.verifyToken, async (req, res) => {
+    try {
+        console.log('Buscando médico com id:', req.params.id); // Log importante
+
+        const medico = await Medico.findByPk(req.params.id);
+
+        if (!medico) {
+            return res.status(404).json({ message: 'Médico não encontrado' });
+        }
+
+        res.json(medico);
+    } catch (error) {
+        console.error('Erro ao buscar médico:', error);
+        res.status(500).json({ message: 'Erro ao buscar médico.' });
+    }
+});
+
+
 router.post('/', auth.verifyToken, auth.isMedico, async (req, res) => {
     const medico = await Medico.create(req.body);
     res.json(medico);
 });
 
 router.put('/:id', auth.verifyToken, auth.isMedico, async (req, res) => {
-    await Medico.update(req.body, { where: { id: req.params.id } });
-    res.json({ message: 'Médico atualizado' });
+    const updateData = { ...req.body };
+    if (!updateData.senha) {
+        delete updateData.senha;
+    }
+    try {
+        await Medico.update(updateData, { where: { id: req.params.id } });
+        res.json({ message: 'Médico atualizado' });
+    } catch (err) {
+        res.status(500).json({ message: 'Erro ao atualizar médico', error: err.message });
+    }
 });
 
 router.delete('/:id', auth.verifyToken, auth.isMedico, async (req, res) => {

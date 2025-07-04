@@ -3,6 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('web_db2', 'postgres', '1234', {
     host: 'localhost',
     dialect: 'postgres', 
+    logging: false
 });
 
 

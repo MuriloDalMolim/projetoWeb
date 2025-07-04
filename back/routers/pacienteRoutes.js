@@ -10,6 +10,23 @@ router.get('/', auth.verifyToken, async (req, res) => {
     res.json(pacientes);
 });
 
+router.get('/:id', auth.verifyToken, async (req, res) => {
+    try {
+        console.log('Buscando paciente com id:', req.params.id);
+
+        const paciente = await Paciente.findByPk(req.params.id);
+
+        if (!paciente) {
+            return res.status(404).json({ message: 'Paciente não encontrado' });
+        }
+
+        res.json(paciente);
+    } catch (error) {
+        console.error('Erro ao buscar paciente:', error);
+        res.status(500).json({ message: 'Erro ao buscar paciente.' });
+    }
+});
+
 router.post('/', auth.verifyToken, auth.isMedico, async (req, res) => {
     const paciente = await Paciente.create(req.body);
     res.json(paciente);

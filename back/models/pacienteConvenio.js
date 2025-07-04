@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const PacienteConvenio = sequelize.define('paciente_convenio', {
+    const PacienteConvenio = sequelize.define('pacienteConvenio', {
         idPaciente: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'paciente_convenio',
+        tableName: 'pacienteconvenio',
         timestamps: false,
     });
 

@@ -2,13 +2,12 @@ const jwt = require('jsonwebtoken');
 
 // Verificar se o token é válido
 exports.verifyToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-
-    if (!token) return res.status(401).json({ message: 'Token não fornecido.' });
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) return res.status(401).json({ message: 'Token não fornecido.' });
 
     jwt.verify(token, 'seusegredo', (err, decoded) => {
         if (err) return res.status(403).json({ message: 'Token inválido.' });
-        req.user = decoded; // Armazena os dados do usuário no request
+        req.user = decoded; 
         next();
     });
 };
