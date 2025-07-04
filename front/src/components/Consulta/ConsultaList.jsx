@@ -6,19 +6,21 @@ export default function ConsultaList() {
   const [consultas, setConsultas] = useState([]);
   const navigate = useNavigate();
 
+  // Mapeamento inverso de status para exibir o texto completo - ESTA É A CHAVE
+  const reverseStatusMap = {
+    'A': 'Agendada',
+    'C': 'Confirmada',
+    'R': 'Realizada',
+    'X': 'Cancelada'
+  };
+
   const fetchConsultas = async () => {
     try {
       const res = await api.get('/consultas');
       setConsultas(res.data);
-    } catch {
+    } catch (err) {
       alert('Erro ao buscar consultas');
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if(window.confirm('Confirmar exclusão?')) {
-      await api.delete(`/consultas/${id}`);
-      fetchConsultas();
+      console.error(err);
     }
   };
 
@@ -26,26 +28,64 @@ export default function ConsultaList() {
     fetchConsultas();
   }, []);
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Tem certeza que deseja excluir esta consulta?')) {
+      try {
+        await api.delete(`/consultas/${id}`);
+        alert('Consulta excluída com sucesso!');
+        fetchConsultas();
+      } catch (err) {
+        alert('Erro ao excluir consulta');
+        console.error(err);
+      }
+    }
+  };
+
   return (
-    <div>
-      <h2>Consultas</h2>
-      <button onClick={() => navigate('/consultas/novo')}>Nova Consulta</button>
+    <div style={{ backgroundColor: 'white', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '0.5rem', padding: '1.5rem' }}>
+      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#1f2937' }}>Lista de Consultas</h2>
+      <button
+        onClick={() => navigate("/consultas/novo")}
+        style={{ backgroundColor: '#2563eb', color: 'white', padding: '0.75rem 1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: '500', marginBottom: '1.5rem' }}
+      >
+        Agendar Nova Consulta
+      </button>
       {consultas.length === 0 ? (
-        <p>Nenhuma consulta encontrada.</p>
+        <p style={{ color: '#4b5563' }}>Nenhuma consulta encontrada.</p>
       ) : (
-        <ul>
-          {consultas.map(c => (
-            <li key={c.id}>
-              Paciente ID: {c.idPaciente} - Médico ID: {c.idMedico} - Local: {c.local} - Status: {c.status} - Data: {c.data}
-              {' '}
-              <button onClick={() => navigate(`/consultas/${c.id}`)}>Editar</button>
-              {' '}
-              <button onClick={() => handleDelete(c.id)}>Excluir</button>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          {consultas.map(consulta => (
+            <li key={consulta.id} style={{ borderBottom: '1px solid #e5e7eb', paddingBottom: '1rem', paddingTop: '1rem' }}>
+              <p style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1f2937', margin: 0 }}>Paciente ID: {consulta.idPaciente}</p>
+              <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Médico ID: {consulta.idMedico}</p>
+              <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Local: {consulta.local}</p>
+              {consulta.data && <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Data: {new Date(consulta.data).toLocaleDateString()}</p>}
+              {/* Exibe o texto completo do status usando o mapeamento inverso */}
+              <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Status: {reverseStatusMap[consulta.status] || consulta.status}</p>
+              <div style={{ marginTop: '0.75rem' }}>
+                <button
+                  onClick={() => navigate(`/consultas/${consulta.id}`)}
+                  style={{ backgroundColor: '#f59e0b', color: 'white', padding: '0.375rem 0.75rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem', marginRight: '0.5rem' }}
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(consulta.id)}
+                  style={{ backgroundColor: '#dc2626', color: 'white', padding: '0.375rem 0.75rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem' }}
+                >
+                  Excluir
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       )}
-      <button onClick={() => navigate('/home')}>Voltar</button>
+      <button
+        onClick={() => navigate('/home')}
+        style={{ backgroundColor: '#6b7280', color: 'white', padding: '0.75rem 1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '1rem', fontWeight: '500', marginTop: '1.5rem' }}
+      >
+        Voltar
+      </button>
     </div>
   );
 }

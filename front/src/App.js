@@ -59,6 +59,7 @@ export default function App() {
         {/* PacienteConvenio */}
         <Route path="/pacienteconvenios" element={<PrivateRoute><PacienteConvenioList /></PrivateRoute>} />
         <Route path="/pacienteconvenios/novo" element={<PrivateRoute><PacienteConvenioForm /></PrivateRoute>} />
+        <Route path="/pacienteconvenios/:idPaciente/:idConvenio" element={<PacienteConvenioForm />} />
 
         {/* Prontuários */}
         <Route path="/prontuarios" element={<ProntuariosPage />} />

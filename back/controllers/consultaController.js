@@ -25,33 +25,32 @@ module.exports = {
 
     async criar(req, res) {
         try {
-            const novaConsulta = await Consulta.create(req.body);
+            const { idPaciente, idMedico, local, status, data } = req.body;
 
-            // Verifica se já existe prontuário no MongoDB
-            let prontuario = await Prontuario.findOne({ id_paciente: req.body.idPaciente });
+            const novaConsulta = await Consulta.create({ idPaciente, idMedico, local, status, data });
+
+            let prontuario = await Prontuario.findOne({ id_paciente: idPaciente });
 
             if (!prontuario) {
                 prontuario = new Prontuario({
-                    id_paciente: req.body.idPaciente,
+                    id_paciente: idPaciente,
                     historico: []
                 });
             }
-
-            // Adiciona entrada no prontuário (somente dados disponíveis na criação)
             prontuario.historico.push({
                 id_consulta: novaConsulta.id,
-                data: novaConsulta.data,
-                sintomas: "",         // Informar posteriormente via PUT
-                diagnostico: "",      // Informar posteriormente via PUT
-                prescricao: "",       // Informar posteriormente via PUT
-                observacoes: ""       // Informar posteriormente via PUT
+                sintomas: "",
+                diagnostico: "",
+                prescricao: "",
+                observacoes: ""
             });
 
-            await prontuario.save();
+            await prontuario.save(); 
 
             res.status(201).json(novaConsulta);
         } catch (error) {
-            res.status(500).json({ message: 'Erro ao criar consulta.', error });
+            console.error('Erro ao criar consulta no controller:', error);
+            res.status(500).json({ message: 'Erro ao criar consulta.', error: error.message || 'Erro desconhecido ao processar dados.' });
         }
     },
 
