@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import axios from 'axios';
-import ProntuarioList from './../components/Prontuario/ProntuarioList'; // Certifique-se que o componente existe e está estilizado
+import ProntuarioList from './../components/Prontuario/ProntuarioList'; 
 
 export default function ProntuariosPage() {
   const [idPaciente, setIdPaciente] = useState('');
@@ -76,7 +76,6 @@ export default function ProntuariosPage() {
 
       {prontuario && prontuario.historico ? (
         prontuario.historico.length > 0 ? (
-          // ProntuarioList é um componente externo e receberá estilos inline
           <ProntuarioList prontuarios={prontuario.historico} onUpdate={atualizarEntrada} />
         ) : (
           <p style={{ textAlign: 'center', color: '#4b5563', fontSize: '1.125rem' }}>Prontuário vazio.</p>

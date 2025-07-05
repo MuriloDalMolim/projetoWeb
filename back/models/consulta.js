@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         status: {
-            type: DataTypes.STRING(1), // CHAR no Sequelize
+            type: DataTypes.STRING(1), 
             allowNull: false
         },
         data: {

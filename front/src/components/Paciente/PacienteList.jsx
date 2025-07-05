@@ -50,7 +50,6 @@ export default function PacienteList() {
             <li key={paciente.id} style={{ borderBottom: '1px solid #e5e7eb', paddingBottom: '1rem', paddingTop: '1rem' }}>
               <p style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1f2937', margin: 0 }}>Nome: {paciente.nome}</p>
               <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>CPF: {paciente.cpf}</p>
-              {/* Removido: Email e Telefone, que não estavam no seu PatientForm anterior */}
               <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Telefone: {paciente.telefone}</p>
               <div style={{ marginTop: '0.75rem' }}>
                 <button

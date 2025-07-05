@@ -6,7 +6,6 @@ export default function ConvenioForm() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Estado inicializado apenas com nome e descricao
   const [convenio, setConvenio] = useState({
     nome: '',
     descricao: ''
@@ -36,7 +35,6 @@ export default function ConvenioForm() {
       };
       fetchConvenio();
     } else {
-      // Reseta os campos para um novo convênio
       setConvenio({ nome: '', descricao: '' });
     }
   }, [id]);

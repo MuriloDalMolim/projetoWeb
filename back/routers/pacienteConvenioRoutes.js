@@ -1,16 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const PacienteConvenio = db.models.PacienteConvenio; // acesso pelo Sequelize assim
-
-// ATENÇÃO: A ORDEM DAS ROTAS IMPORTA! Rotas mais específicas primeiro.
-
-// Buscar uma associação por idPaciente e idConvenio (para edição/visualização específica)
-// Esta deve vir antes de rotas mais genéricas como '/:id'
+const PacienteConvenio = db.models.PacienteConvenio; 
 router.get('/:idPaciente/:idConvenio', async (req, res) => {
     const { idPaciente, idConvenio } = req.params;
     try {
-        // Usando findOne com a cláusula 'where' para chaves compostas no Sequelize
         const associacao = await PacienteConvenio.findOne({
             where: {
                 idPaciente: idPaciente,
@@ -28,9 +22,6 @@ router.get('/:idPaciente/:idConvenio', async (req, res) => {
     }
 });
 
-
-// Listar todas as associações pacienteconvenios
-// Esta rota deve ser a mais genérica para GETs
 router.get('/', async (req, res) => {
     try {
         const associacoes = await PacienteConvenio.findAll();
@@ -41,21 +32,13 @@ router.get('/', async (req, res) => {
     }
 });
 
-// REMOVIDA: A rota router.get('/:id', async (req, res) => { ... });
-// Foi removida porque sua PK é composta, e PacienteConvenio.findByPk(req.params.id) não faria sentido
-// para uma chave composta por idPaciente e idConvenio.
-// Se você realmente precisar de uma busca por um único ID, precisaria de um campo 'id' separado na tabela
-// ou uma lógica de busca diferente, mas para editar a associação, os dois IDs são necessários.
-
-
-// Criar nova associação
 router.post('/', async (req, res) => {
     try {
-        console.log('Dados recebidos no body:', req.body); // Adicione este console
+        console.log('Dados recebidos no body:', req.body); 
 
         const { idPaciente, idConvenio, numeroPlano } = req.body;
 
-        // Validação básica
+      
         if (!idPaciente || !idConvenio || !numeroPlano) {
             return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
         }
@@ -68,7 +51,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Atualizar associação pelo idPaciente e idConvenio
 router.put('/:idPaciente/:idConvenio', async (req, res) => {
     try {
         const { idPaciente, idConvenio } = req.params;
@@ -87,7 +69,6 @@ router.put('/:idPaciente/:idConvenio', async (req, res) => {
     }
 });
 
-// Deletar associação pelo idPaciente e idConvenio
 router.delete('/:idPaciente/:idConvenio', async (req, res) => {
     try {
         const { idPaciente, idConvenio } = req.params;

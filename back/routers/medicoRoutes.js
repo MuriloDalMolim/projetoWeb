@@ -12,7 +12,7 @@ router.get('/', auth.verifyToken, async (req, res) => {
 
 router.get('/:id', auth.verifyToken, async (req, res) => {
     try {
-        console.log('Buscando médico com id:', req.params.id); // Log importante
+        console.log('Buscando médico com id:', req.params.id); 
 
         const medico = await Medico.findByPk(req.params.id);
 

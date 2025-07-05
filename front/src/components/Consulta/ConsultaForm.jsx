@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'; // Importar useMemo
+import React, { useEffect, useState, useMemo } from 'react'; 
 import api from '../../api/api';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -6,28 +6,25 @@ export default function ConsultaForm() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Mapeamento de status para caracteres únicos
-  const statusMap = useMemo(() => ({ // Use useMemo para memorizar o objeto statusMap
+  const statusMap = useMemo(() => ({ 
     'Agendada': 'A',
     'Confirmada': 'C',
     'Realizada': 'R',
     'Cancelada': 'X'
-  }), []); // Array de dependências vazio, pois o objeto é constante
-
-  // Mapeamento inverso para exibir no formulário ao editar
-  const reverseStatusMap = useMemo(() => ({ // Use useMemo para memorizar o objeto reverseStatusMap
+  }), []); 
+  const reverseStatusMap = useMemo(() => ({ 
     'A': 'Agendada',
     'C': 'Confirmada',
     'R': 'Realizada',
     'X': 'Cancelada'
-  }), []); // Array de dependências vazio, pois o objeto é constante
+  }), []); 
 
   const [consulta, setConsulta] = useState({
     idPaciente: '',
     idMedico: '',
     local: '',
     data: '',
-    status: 'Agendada' // Valor completo para inicializar o select
+    status: 'Agendada' 
   });
 
   const [loading, setLoading] = useState(false);
@@ -45,8 +42,6 @@ export default function ConsultaForm() {
             setConsulta({
               ...response.data,
               data: formattedDate,
-              // Mapeia o caractere único vindo da API (response.data.status)
-              // de volta para o texto completo para que o <select> possa exibi-lo corretamente.
               status: response.data.status ? reverseStatusMap[response.data.status] : 'Agendada'
             });
           } else {
@@ -69,7 +64,7 @@ export default function ConsultaForm() {
         status: 'Agendada'
       });
     }
-  }, [id, reverseStatusMap]); // reverseStatusMap agora é uma dependência estável devido ao useMemo
+  }, [id, reverseStatusMap]); 
 
   const handleChange = e => {
     setConsulta({ ...consulta, [e.target.name]: e.target.value });
@@ -78,10 +73,9 @@ export default function ConsultaForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Cria um objeto de consulta para enviar, com o status mapeado para caractere único
       const consultaToSend = {
         ...consulta,
-        status: statusMap[consulta.status] // Aqui 'Agendada' vira 'A', etc.
+        status: statusMap[consulta.status] 
       };
 
       if (id) {
@@ -156,8 +150,8 @@ export default function ConsultaForm() {
           <select
             id="status"
             name="status"
-            value={consulta.status} // O estado mantém o texto completo
-            onChange={handleChange} // onChange direto para atualizar o estado com o texto completo
+            value={consulta.status} 
+            onChange={handleChange} 
             required
             style={{ display: 'block', width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db', borderRadius: '0.375rem', outline: 'none' }}
           >

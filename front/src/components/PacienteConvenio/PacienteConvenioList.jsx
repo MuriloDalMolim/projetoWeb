@@ -60,7 +60,7 @@ export default function PacienteConvenioList() {
                   <td style={{ padding: '0.75rem 1rem', whiteSpace: 'nowrap' }}>{a.numeroPlano}</td>
                   <td style={{ padding: '0.75rem 1rem', whiteSpace: 'nowrap' }}>
                     <button
-                      onClick={() => navigate(`/pacienteconvenios/${a.idPaciente}/${a.idConvenio}`)} // Navegação para edição com ambos os IDs na URL
+                      onClick={() => navigate(`/pacienteconvenios/${a.idPaciente}/${a.idConvenio}`)} 
                       style={{ backgroundColor: '#f59e0b', color: 'white', padding: '0.375rem 0.75rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem', marginRight: '0.5rem' }}
                     >
                       Editar

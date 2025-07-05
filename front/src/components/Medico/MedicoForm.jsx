@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../api/api';
 import { useParams, useNavigate } from 'react-router-dom';
 
-export default function MedicoForm() { // Removida a prop onSuccess
+export default function MedicoForm() { 
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ useEffect(() => {
       } else {
         await api.post('/medicos', medico);
       }
-      navigate('/medicos'); // Navega de volta para a lista de médicos após salvar
+      navigate('/medicos'); 
     } catch (err) {
       console.error('Erro ao salvar médico', err);
       alert('Erro ao salvar médico');
@@ -146,7 +146,7 @@ useEffect(() => {
           </button>
           <button
             type="button"
-            onClick={() => navigate('/medicos')} // Navega de volta para a lista de médicos
+            onClick={() => navigate('/medicos')} 
             style={{ backgroundColor: '#6b7280', color: 'white', padding: '0.625rem 1rem', borderRadius: '0.375rem', border: 'none', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '500' }}
           >
             Voltar

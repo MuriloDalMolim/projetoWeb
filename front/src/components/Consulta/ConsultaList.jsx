@@ -6,7 +6,6 @@ export default function ConsultaList() {
   const [consultas, setConsultas] = useState([]);
   const navigate = useNavigate();
 
-  // Mapeamento inverso de status para exibir o texto completo - ESTA É A CHAVE
   const reverseStatusMap = {
     'A': 'Agendada',
     'C': 'Confirmada',
@@ -60,7 +59,6 @@ export default function ConsultaList() {
               <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Médico ID: {consulta.idMedico}</p>
               <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Local: {consulta.local}</p>
               {consulta.data && <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Data: {new Date(consulta.data).toLocaleDateString()}</p>}
-              {/* Exibe o texto completo do status usando o mapeamento inverso */}
               <p style={{ color: '#374151', margin: '0.25rem 0 0 0' }}>Status: {reverseStatusMap[consulta.status] || consulta.status}</p>
               <div style={{ marginTop: '0.75rem' }}>
                 <button

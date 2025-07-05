@@ -8,10 +8,9 @@ export default function PacienteForm() {
 
   const [paciente, setPaciente] = useState({
     nome: '',
-    senha: '', // Mantido pois foi visto em Login (mas pode não ser armazenado diretamente aqui)
+    senha: '', 
     cpf: '',
     telefone: '',
-    // Removidos: dataNascimento, genero, endereco
   });
 
   const [loading, setLoading] = useState(false);
@@ -25,10 +24,9 @@ export default function PacienteForm() {
           setError('');
           const response = await api.get(`/pacientes/${id}`);
           if (response.data) {
-            // Apenas define os campos que existem no backend
             setPaciente({
               nome: response.data.nome || '',
-              senha: '', // Senha nunca deve ser pré-preenchida por segurança
+              senha: '', 
               cpf: response.data.cpf || '',
               telefone: response.data.telefone || '',
             });
@@ -44,7 +42,6 @@ export default function PacienteForm() {
       };
       fetchPaciente();
     } else {
-      // Reseta para formulário de criação
       setPaciente({
         nome: '',
         senha: '',
@@ -61,18 +58,16 @@ export default function PacienteForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Cria um objeto com os dados que realmente serão enviados à API
       const pacienteParaEnviar = {
         nome: paciente.nome,
         cpf: paciente.cpf,
         telefone: paciente.telefone,
       };
 
-      // Adiciona a senha apenas se não for edição ou se ela foi preenchida na edição
       if (paciente.senha) {
           pacienteParaEnviar.senha = paciente.senha;
-      } else if (!id) { // Se é um novo cadastro e a senha está vazia, força a requisição
-          alert('A senha é obrigatória para novos cadastros.'); // Ou trate de outra forma
+      } else if (!id) { 
+          alert('A senha é obrigatória para novos cadastros.'); 
           return;
       }
 
@@ -117,7 +112,7 @@ export default function PacienteForm() {
             value={paciente.senha}
             onChange={handleChange}
             type="password"
-            required={!id} // Senha é obrigatória apenas para novos cadastros
+            required={!id} 
             style={{ display: 'block', width: '100%', padding: '0.625rem 0.75rem', border: '1px solid #d1d5db', borderRadius: '0.375rem', outline: 'none' }}
           />
         </div>
